@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const italicCheckbox = document.querySelector('input[value="italic"]');
 
     // Initialization PDF.js
-    pdfjsLib.GlobalWorkerOptions.workerSrc = './pdfjs/pdf.worker.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdfjs/pdf.worker.js';
 
     let loadedPdfBytes = null;
 

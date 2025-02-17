@@ -8,7 +8,7 @@ function loadJSON(fileName, callback) {
 
 // Функція для завантаження перекладів
 function loadLocales(language) {
-    const localesFile = `_locales/${language}/messages.json`;
+    const localesFile = `locales/${language}/messages.json`;
     const translationsFile = `translations/${language}/messages.json`;
 
     loadJSON(localesFile, (localesData) => {
