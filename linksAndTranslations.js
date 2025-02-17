@@ -71,7 +71,9 @@ function loadLanguages() {
                 localStorage.setItem("language", selectedCode);
                 selectedLanguageElement.textContent = e.target.textContent;
                 loadLocales(selectedCode);
+                console.log("Hiding dropdown");
                 dropdownList.style.display = "none";
+                e.stopPropagation();
             });
         });
     });
