@@ -68,10 +68,13 @@ function loadLanguages() {
         document.querySelectorAll(".dropdown-item").forEach(item => {
             item.addEventListener("click", (e) => {
                 const selectedCode = e.target.dataset.code;
-                localStorage.setItem("language", selectedCode);
-                selectedLanguageElement.textContent = e.target.textContent;
-                loadLocales(selectedCode);
-                dropdownList.style.display = "none";
+
+                localStorage.setItem("language", selectedCode); // Використовуємо localStorage
+                selectedLanguage.textContent = e.target.textContent;
+
+                loadLocales(); // Оновлюємо переклад
+
+                dropdownList.style.display = "none"; // Ховаємо випадаючий список
             });
         });
     });
@@ -88,4 +91,11 @@ document.addEventListener("DOMContentLoaded", function() {
 document.getElementById("languageDropdown").addEventListener("click", () => {
     const dropdownList = document.getElementById("dropdownList");
     dropdownList.style.display = dropdownList.style.display === "block" ? "none" : "block";
+});
+
+
+document.addEventListener("click", (event) => {
+    if (!languageDropdown.contains(event.target) && !dropdownList.contains(event.target)) {
+        dropdownList.style.display = "none";
+    }
 });
