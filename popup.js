@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const italicCheckbox = document.querySelector('input[value="italic"]');
 
     // Initialization PDF.js
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdfjs/pdf.worker.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = './pdfjs/pdf.worker.js';
 
     let loadedPdfBytes = null;
 
@@ -257,6 +257,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // Closing a modal window when clicking outside of it
     window.addEventListener("click", function(event) {
         const modal = document.getElementById("ratingModal");
@@ -420,6 +442,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     });
 
+
+
+
+
+
+
+
+
+
+
     // Function to display a modal window
     function showRatingModal() {
         const modal = document.getElementById("ratingModal");
@@ -427,6 +459,15 @@ document.addEventListener('DOMContentLoaded', () => {
             modal.style.display = "block";
         }
     }
+
+
+
+
+
+
+
+
+
 
     let isDrawingEnabled = false;
 
@@ -451,6 +492,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+
+
+
+
+
+
+
+
+
+
 
     // Setting the selected color for the mouse
     mouseColor.forEach((box) => {
