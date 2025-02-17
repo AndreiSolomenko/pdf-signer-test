@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="theme-color" content="#000000"/>
+    <title>PDF Signer</title>
+    <script src="pdfjs/pdf.js"></script>
+    <script src="pdfjs/pdf-lib.min.js"></script>
+    <script src="pdfjs/pdf.worker.js"></script>
+    <link rel="stylesheet" href="styles.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Dancing+Script&family=Caveat&family=Shadows+Into+Light&family=Satisfy&family=Great+Vibes&family=Patrick+Hand&family=Yellowtail&family=Amatic+SC&family=Gloria+Hallelujah&family=Roboto&family=Open+Sans&family=Lato&family=Montserrat&family=Poppins&family=Nunito&family=Merriweather&family=Playfair+Display&family=Source+Sans+Pro&family=Raleway&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+<div id="document-container" style="width: 100%; height: 100%"></div>
+
+<div class="plugin-container">
+
+    <div style="display: flex; justify-content: end; font-size: 0.9rem; margin-right: 5px;">
+        <div id="languageDropdown" class="custom-select-container">
+            <div id="selectedLanguage" class="selected-language">Loading...</div>
+            <div id="dropdownList" class="dropdown" style="display: none;"></div>
+        </div>
+    </div>
+
+
+    <div id="appName" style="font-size: 1.5rem; font-weight: bold; margin-top: 1.5rem">PDF Signer</div>
+
+    <fieldset style="margin: 1.8rem 0 1rem 0; padding: 1rem 1rem 0.5rem 1rem">
+        <legend id="legend-select-document" style="padding: 0 0.4rem; font-size: 0.9rem; color: #555555">Select a document</legend>
+        <button id="upload-pdf-button" style="width: 100%; height: 2.2rem;">Upload PDF</button>
+        <div id="drop-zone">Drag and drop your PDF file here</div>
+        <p id="file-name-display" style="margin-top: 1rem; font-style: italic; font-size: 0.8rem"></p>
+    </fieldset>
+
+
+    <fieldset style="margin: 2rem 0; display: flex; flex-direction: column; align-items: start;">
+        <legend id="select-signature-type" style="padding: 0 0.4rem; font-size: 0.9rem; color: #555555">Select a signature type</legend>
+
+        <div style="margin: 0.3rem">
+            <input type="radio" id="mouseCursor" name="drone" value="huey"/>
+            <label id="using-mouse-cursor" style="font-size: 0.8rem;" for="mouseCursor">Using the mouse cursor</label>
+        </div>
+
+        <div id="mouse-color-box" style="display: none; width: 80%; margin-top: 0.5rem">
+            <div style="display: flex; flex-direction: column; margin-left: 1.8rem; width: 100%; margin-bottom: 0.7rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between">
+                    <label id="color-mouse" for="font-family-selector" style="font-size: 0.95rem">Color:</label>
+                    <div style="display: flex; align-items: center; justify-content: space-around; width: 74%; padding: 0.2rem 0;">
+                        <div class="mouse-color selected" data-color="black" style="background-color: black"></div>
+                        <div class="mouse-color" data-color="red" style="background-color: red"></div>
+                        <div class="mouse-color" data-color="blue" style="background-color: blue"></div>
+                        <div class="mouse-color" data-color="green" style="background-color: green"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="mouse-signature-field">Make a signature with the mouse here</div>
+            <button id="clear-mouse-signature-field" style="padding: 0.5rem; width: 100%; margin-left: 1.8rem; margin-bottom: 0.7rem;">Clear</button>
+            <button id="add-mouse-signature" style="padding: 0.5rem; width: 100%; margin-left: 1.8rem; margin-bottom: 0.7rem;">Add signature</button>
+        </div>
+
+
+
+        <div style="margin: 0.3rem;">
+            <input type="radio" id="imageOverlay" name="drone" value="dewey"/>
+            <label id="label-image-overlay" style="font-size: 0.8rem;" for="imageOverlay">Image overlay (company stamp)</label>
+        </div>
+
+        <div id="image-upload-container" style="display: none; width: 80%; margin: 1rem 0 1rem 1.8rem;">
+            <button id="image-upload" style="width: 100%; padding: 0.5rem;">Choose File</button>
+        </div>
+
+        <div style="margin: 0.3rem">
+            <input type="radio" id="textOverlay" name="drone" value="louie"/>
+            <label id="overlaying-entered-text" style="font-size: 0.8rem;" for="textOverlay">Overlaying the entered text</label>
+        </div>
+
+        <div id="text-input-container" style="display: none; width: 80%;">
+            <div style="display: flex; flex-direction: column; margin: 0.5rem 0 0.5rem 1.8rem; width: 100%;">
+                <input type="text" id="text-overlay" style="margin-bottom: 0.7rem; padding: 0.2rem" placeholder="Enter your text">
+                <div style="margin-bottom: 0.7rem; display: flex; align-items: center; justify-content: space-between">
+                    <label id="font" for="font-family-selector" style="font-size: 0.95rem">Font:</label>
+                    <select id="font-family-selector" style="font-size: 0.9rem; padding: 0.2rem; width: 75%;">
+                        <option value="Arial" style="font-family: Arial">Arial</option>
+                        <option value="TimesRoman" style="font-family: TimesRoman">Times Roman</option>
+                        <option value="Pacifico" style="font-family: Pacifico">Pacifico</option>
+                        <option value="Dancing Script" style="font-family: 'Dancing Script'">Dancing Script</option>
+                        <option value="Caveat" style="font-family: Caveat">Caveat</option>
+                        <option value="Shadows Into Light" style="font-family: 'Shadows Into Light'">Shadows Into Light</option>
+                        <option value="Satisfy" style="font-family: Satisfy">Satisfy</option>
+                        <option value="Great Vibes" style="font-family: 'Great Vibes'">Great Vibes</option>
+                        <option value="Patrick Hand" style="font-family: 'Patrick Hand'">Patrick Hand</option>
+                        <option value="Yellowtail" style="font-family: Yellowtail">Yellowtail</option>
+                        <option value="Amatic SC" style="font-family: 'Amatic SC'">Amatic SC</option>
+                        <option value="Gloria Hallelujah" style="font-family: 'Gloria Hallelujah'">Gloria Hallelujah</option>
+                        <option value="Roboto" style="font-family: Roboto">Roboto</option>
+                        <option value="Open Sans" style="font-family: 'Open Sans'">Open Sans</option>
+                        <option value="Lato" style="font-family: Lato">Lato</option>
+                        <option value="Montserrat" style="font-family: Montserrat">Montserrat</option>
+                        <option value="Poppins" style="font-family: Poppins">Poppins</option>
+                        <option value="Nunito" style="font-family: Nunito">Nunito</option>
+                        <option value="Merriweather" style="font-family: Merriweather">Merriweather</option>
+                        <option value="Playfair Display" style="font-family: 'Playfair Display'">Playfair Display</option>
+                        <option value="Source Sans Pro" style="font-family: 'Source Sans Pro'">Source Sans Pro</option>
+                        <option value="Raleway" style="font-family: Raleway">Raleway</option>
+                    </select>
+                </div>
+                <div style="margin-bottom: 0.7rem; display: flex; align-items: center; justify-content: space-between">
+                    <label id="color" for="font-family-selector" style="font-size: 0.95rem">Color:</label>
+                    <div style="display: flex; align-items: center; justify-content: space-around; width: 74%; padding: 0.2rem 0;">
+                        <div class="color-box selected" data-color="black" style="background-color: black"></div>
+                        <div class="color-box" data-color="red" style="background-color: red"></div>
+                        <div class="color-box" data-color="blue" style="background-color: blue"></div>
+                        <div class="color-box" data-color="green" style="background-color: green"></div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 1rem; display: flex; align-items: center; justify-content: start">
+                    <div style="display: flex; justify-content: center">
+                        <label style="font-size: 0.95rem; margin: 0.1rem 0.5rem 0 0; font-weight: bold">Bold</label>
+                        <input type="checkbox" value="bold"/>
+                    </div>
+                    <div style="display: flex; justify-content: center">
+                        <label style="font-size: 0.95rem; margin: 0.1rem 0.5rem 0 1.5rem; font-style: italic">Italic</label>
+                        <input type="checkbox" value="italic"/>
+                    </div>
+                </div>
+                <button id="process-text-button" style="padding: 0.5rem;">Add Text</button>
+            </div>
+        </div>
+
+    </fieldset>
+
+    <button id="clear-button" style="width: 95%; height: 2.2rem; margin-bottom: 1rem">Clear</button>
+    <button id="save-button" style="width: 95%; height: 2.2rem;">Save Signed PDF</button>
+
+    <div style="display: flex; align-items: center; justify-content: space-between; margin: 1.5rem 0.5rem 0 0.5rem">
+        <a id="requestFeatureLink" href="https://app.cresotech.com/pdfsigner_request.html" target="_blank"
+           style="text-decoration: none; color: black; font-size: 0.95rem">Request feature 🚀</a>
+        <a id="aboutURL" href="https://cresotech.com" target="_blank"
+           style="text-decoration: none;"><img style="height: 2.4rem;" src="images/cresotech.png"/></a>
+        <span id="rateUsButton" style="cursor: pointer; font-size: 0.95rem;">Rate us ⭐</span>
+    </div>
+
+
+    <!-- Modal window for evaluation -->
+    <div id="ratingModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <div id="modalRateUsTitle" style="font-size: 1.3rem; font-weight: bold; color: black; margin: 1rem 0">Rate us ⭐</div>
+
+            <div id="modalRateUsText" style="font-size: 0.9rem; color: rgb(50,50,50)">How much do you like our app?</div>
+            <div class="stars">
+                <span class="star" data-rating="1">&#9733;</span>
+                <span class="star" data-rating="2">&#9733;</span>
+                <span class="star" data-rating="3">&#9733;</span>
+                <span class="star" data-rating="4">&#9733;</span>
+                <span class="star" data-rating="5">&#9733;</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>

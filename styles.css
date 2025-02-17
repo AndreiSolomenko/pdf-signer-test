@@ -1,0 +1,284 @@
+html {
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+
+.plugin-container {
+    width: 300px;
+    max-height: 90vh;
+    padding: 10px 20px 20px 20px;
+    border: 1px solid #c6c6c6;
+    background-color: #f4f4f4;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    text-align: center;
+    margin: 0 auto;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.plugin-block {
+    border: 1px solid #c6c6c6;
+    padding: 0 10px 20px 10px;
+}
+
+#document-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+    overflow: auto;
+}
+
+canvas {
+    border: 1px solid #ccc;
+    margin: 10px auto;
+    display: block;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#drop-zone {
+    margin-top: 1rem;
+    padding: 2rem;
+    border: 2px dashed #aaa;
+    border-radius: 10px;
+    text-align: center;
+    color: #555;
+    font-size: 0.8rem;
+    background-color: white;
+}
+
+#drop-zone.dragover {
+    background-color: #c6c6c6;
+    border-color: #000;
+}
+
+
+
+#font-family-selector:focus {
+    border-color: #00aaff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 170, 255, 0.5);
+}
+
+#text-overlay:focus {
+    border-color: #00aaff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 170, 255, 0.5);
+}
+
+
+
+.mouse-color {
+    height: 0.8rem;
+    width: 0.8rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: transform 0.2s, border-color 0.2s;
+    position: relative;
+}
+
+.mouse-color:hover {
+    transform: scale(1.4);
+    border-color: gray;
+}
+
+.mouse-color.selected {
+    position: relative;
+}
+
+.mouse-color.selected::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border: 1px solid gray;
+    border-radius: 0.7rem;
+    pointer-events: none;
+}
+
+
+#mouse-signature-field {
+    margin-left: 1.8rem;
+    margin-bottom: 0.8rem;
+    width: 98%;
+    height: 8rem;
+    border: 2px dashed #aaa;
+    border-radius: 10px;
+    text-align: center;
+    color: #555;
+    font-size: 0.8rem;
+    background-color: white;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    cursor: url('images/cursor.png') 0 40, auto;
+}
+
+
+
+.color-box {
+    height: 0.8rem;
+    width: 0.8rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: transform 0.2s, border-color 0.2s;
+    position: relative;
+}
+
+.color-box:hover {
+    transform: scale(1.4);
+    border-color: gray;
+}
+
+.color-box.selected {
+    position: relative;
+}
+
+.color-box.selected::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border: 1px solid gray;
+    border-radius: 0.7rem;
+    pointer-events: none;
+}
+
+
+
+
+.custom-select-container {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+}
+
+.selected-language {
+    font-size: 0.9rem;
+    color: black;
+    padding: 0.5rem;
+}
+
+.dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdown-item {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.dropdown-item:hover {
+    background-color: gray;
+    color: white;
+}
+
+
+
+/* Styles for the modal window */
+.modal {
+    display: none;
+    position: absolute;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(128, 128, 128, 0.5);
+    backdrop-filter: blur(6px);
+}
+
+.modal-content {
+    background-color: #F8F8F8FF;
+    margin: 70% auto;
+    padding: 10px 15px;
+    border: 1px solid #F8F8F8FF;
+    border-radius: 1rem;
+    width: 75%;
+    text-align: center;
+    position: relative;
+}
+
+.big-star {
+    font-size: 2rem;
+    margin: 0.5rem;
+    color: goldenrod;
+    text-shadow:
+            1px 0 0 rgba(50, 50, 50),
+            -1px 0 0 rgba(50, 50, 50),
+            0 1px 0 rgba(50, 50, 50),
+            0 -1px 0 rgba(50, 50, 50);
+}
+
+.stars {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+
+}
+
+.star {
+    font-size: 1.7rem;
+    margin: 0.2rem;
+    cursor: pointer;
+    color: white;
+    text-shadow:
+            1px 0 0 grey,
+            -1px 0 0 grey,
+            0 1px 0 grey,
+            0 -1px 0 grey;
+}
+
+.star:hover {
+    color: rgb(253, 216, 53);
+}
+
+
+.hovered {
+    color: rgb(253, 216, 53);
+}
+
